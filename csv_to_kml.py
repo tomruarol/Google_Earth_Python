@@ -1,3 +1,7 @@
+'''
+This script drinks information provided from an Excel output and generates a .kmz file
+'''
+
 import geocoding_for_kml
 import csv
 import xml.dom.minidom
