@@ -5,12 +5,15 @@ import sys
 
 
 def extractAddress(row):
+
 	# This extracts an address from a row and returns it as a string. This requires knowing
 	# ahead of time what the columns are that hold the address information.
+
 	return '%s,%s,%s,%s,%s' % (row['Address1'], row['Address2'], row['City'], row['State'], row['Zip'])
 
 
 def createPlacemark(kmlDoc, row, order):
+
 	# This creates a  element for a row of data.
 	# A row is a dict.
 	placemarkElement = kmlDoc.createElement('Placemark')
@@ -30,14 +33,29 @@ def createPlacemark(kmlDoc, row, order):
 
 	pointElement = kmlDoc.createElement('Point')
 	placemarkElement.appendChild(pointElement)
-	coordinates = geocoding_for_kml.geocode(extractAddress(row))
+
+	'''
+	This code from here is not needed as we already have the longitude and latitude from our desired points.
+	'''
+	# coordinates = geocoding_for_kml.geocode(extractAddress(row))
+	# coorElement = kmlDoc.createElement('coordinates')
+	# coorElement.appendChild(kmlDoc.createTextNode(coordinates))
+	# pointElement.appendChild(coorElement)
+
+	'''
+	Though, we need to add our long & latitude manually
+	'''
+	# TODO
+	coordinates = str() + ',' + str() # 14.25,15.23 --> lat,long
 	coorElement = kmlDoc.createElement('coordinates')
 	coorElement.appendChild(kmlDoc.createTextNode(coordinates))
 	pointElement.appendChild(coorElement)
+
 	return placemarkElement
 
 
 def createKML(csvReader, fileName, order):
+
 	# This constructs the KML document from the CSV file.
 	kmlDoc = xml.dom.minidom.Document()
 
@@ -69,8 +87,8 @@ def main():
 		order = sys.argv[1].split(',')
 	else:
 		order = ['Office', 'Address1', 'Address2', 'Address3', 'City', 'State', 'Zip', 'Phone', 'Fax']
-	csvreader = csv.DictReader(open('google-addresses.csv'), order)
-	kml = createKML(csvreader, 'google-addresses.kml', order)
+	csvreader = csv.DictReader(open('google-addresses.csv'), order) # TODO
+	kml = createKML(csvreader, 'google-addresses.kml', order) # TODO
 
 
 if __name__ == '__main__':
